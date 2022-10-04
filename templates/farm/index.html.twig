@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Farm index{% endblock %}
+
+{% block body %}
+    <h1>Farm index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Adress</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for farm in farms %}
+            <tr>
+                <td>{{ farm.id }}</td>
+                <td>{{ farm.name }}</td>
+                <td>{{ farm.adress }}</td>
+                <td>
+                    <a href="{{ path('app_farm_show', {'id': farm.id}) }}">show</a>
+                    <a href="{{ path('app_farm_edit', {'id': farm.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_farm_new') }}">Create new</a>
+{% endblock %}

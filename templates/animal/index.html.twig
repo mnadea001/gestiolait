@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Animal index{% endblock %}
+
+{% block body %}
+    <h1>Animal index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Name</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Age</th>
+                <th>Birth_date</th>
+                <th>Race</th>
+                <th>Espece</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for animal in animals %}
+            <tr>
+                <td>{{ animal.id }}</td>
+                <td>{{ animal.label }}</td>
+                <td>{{ animal.name }}</td>
+                <td>{{ animal.height }}</td>
+                <td>{{ animal.weight }}</td>
+                <td>{{ animal.age }}</td>
+                <td>{{ animal.birthDate ? animal.birthDate|date('Y-m-d') : '' }}</td>
+                <td>{{ animal.race }}</td>
+                <td>{{ animal.espece }}</td>
+                <td>
+                    <a href="{{ path('app_animal_show', {'id': animal.id}) }}">show</a>
+                    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_animal_new') }}">Create new</a>
+{% endblock %}
