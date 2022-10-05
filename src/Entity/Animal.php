@@ -43,12 +43,17 @@ class Animal
     #[ORM\Column(length: 255)]
     private ?string $espece = null;
 
-    #[ORM\ManyToOne(inversedBy: 'animal')]
-    private ?VaccinInjection $vaccinInjection = null;
+    #[ORM\ManyToMany(targetEntity: VaccinInjection::class, inversedBy: 'animals')]
+    private Collection $vaccin_injection;
+
+
 
     public function __construct()
     {
         $this->farms = new ArrayCollection();
+        $this->vaccin_injection = new ArrayCollection();
+
+
     }
 
     public function getId(): ?int
@@ -179,15 +184,31 @@ class Animal
         return $this;
     }
 
-    public function getVaccinInjection(): ?VaccinInjection
+    /**
+     * @return Collection<int, VaccinInjection>
+     */
+    public function getVaccinInjection(): Collection
     {
-        return $this->vaccinInjection;
+        return $this->vaccin_injection;
     }
 
-    public function setVaccinInjection(?VaccinInjection $vaccinInjection): self
+    public function addVaccinInjection(VaccinInjection $vaccinInjection): self
     {
-        $this->vaccinInjection = $vaccinInjection;
+        if (!$this->vaccin_injection->contains($vaccinInjection)) {
+            $this->vaccin_injection->add($vaccinInjection);
+        }
 
         return $this;
     }
+
+    public function removeVaccinInjection(VaccinInjection $vaccinInjection): self
+    {
+        $this->vaccin_injection->removeElement($vaccinInjection);
+
+        return $this;
+    }
+
+
+
+
 }

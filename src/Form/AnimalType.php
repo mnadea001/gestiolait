@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Animal;
+use App\Entity\VaccinInjection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AnimalType extends AbstractType
@@ -21,7 +23,12 @@ class AnimalType extends AbstractType
             ->add('race')
             ->add('espece')
 
-            ->add('vaccinInjection')
+            ->add('vaccinInjection', EntityType::class, [
+                'label' => false,
+                'class' => VaccinInjection::class,
+                'multiple' => true,
+                'expanded' => true
+            ])
         ;
     }
 

@@ -25,12 +25,20 @@ class VaccinInjection
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end_period = null;
 
-    #[ORM\OneToMany(mappedBy: 'vaccinInjection', targetEntity: Animal::class)]
-    private Collection $animal;
+    #[ORM\ManyToMany(targetEntity: Animal::class, mappedBy: 'vaccin_injection')]
+    private Collection $animals;
+
+
 
     public function __construct()
     {
         $this->animal = new ArrayCollection();
+        $this->animals = new ArrayCollection();
+
+    }
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -77,16 +85,16 @@ class VaccinInjection
     /**
      * @return Collection<int, Animal>
      */
-    public function getAnimal(): Collection
+    public function getAnimals(): Collection
     {
-        return $this->animal;
+        return $this->animals;
     }
 
     public function addAnimal(Animal $animal): self
     {
-        if (!$this->animal->contains($animal)) {
-            $this->animal->add($animal);
-            $animal->setVaccinInjection($this);
+        if (!$this->animals->contains($animal)) {
+            $this->animals->add($animal);
+            $animal->addVaccinInjection($this);
         }
 
         return $this;
@@ -94,13 +102,13 @@ class VaccinInjection
 
     public function removeAnimal(Animal $animal): self
     {
-        if ($this->animal->removeElement($animal)) {
-            // set the owning side to null (unless already changed)
-            if ($animal->getVaccinInjection() === $this) {
-                $animal->setVaccinInjection(null);
-            }
+        if ($this->animals->removeElement($animal)) {
+            $animal->removeVaccinInjection($this);
         }
 
         return $this;
     }
+
+
+
 }
