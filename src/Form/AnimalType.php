@@ -20,7 +20,7 @@ class AnimalType extends AbstractType
             ->add('birth_date')
             ->add('race')
             ->add('espece')
-            ->add('farms')
+
             ->add('vaccinInjection')
         ;
     }

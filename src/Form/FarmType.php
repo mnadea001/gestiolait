@@ -14,8 +14,7 @@ class FarmType extends AbstractType
         $builder
             ->add('name')
             ->add('adress')
-            ->add('user')
-            ->add('animal')
+
         ;
     }
 
