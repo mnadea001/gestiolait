@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AnimalRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
+use App\Repository\AnimalRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 class Animal
@@ -44,6 +45,7 @@ class Animal
     private ?string $espece = null;
 
     #[ORM\ManyToMany(targetEntity: VaccinInjection::class, inversedBy: 'animals')]
+    #[JoinTable(name:"animal_vaccin_injection")]
     private Collection $vaccin_injection;
 
 

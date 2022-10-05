@@ -32,7 +32,7 @@ class VaccinInjection
 
     public function __construct()
     {
-        $this->animal = new ArrayCollection();
+ 
         $this->animals = new ArrayCollection();
 
     }

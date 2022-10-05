@@ -63,4 +63,31 @@ class AnimalRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findAnimals(string $query)
+{
+    $qb = $this->createQueryBuilder('animal');
+    $qb
+        ->where(
+            $qb->expr()->andX(
+                $qb->expr()->orX(
+                    $qb->expr()->like('animal.name', ':query'),
+                    $qb->expr()->like('animal.label', ':query'),
+                    $qb->expr()->like('animal.height', ':query'),
+                    $qb->expr()->like('animal.weight', ':query'),
+                    $qb->expr()->like('animal.age', ':query'),
+                    $qb->expr()->like('animal.race', ':query'),
+                    $qb->expr()->like('animal.espece', ':query'),
+                ),
+ 
+            )
+        )
+        ->setParameter('query', '%' . $query . '%');
+    return $qb
+        ->getQuery()
+        ->getResult();
+}
+
+
+
 }

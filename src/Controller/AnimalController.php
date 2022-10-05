@@ -5,19 +5,37 @@ namespace App\Controller;
 use App\Entity\Animal;
 use App\Form\AnimalType;
 use App\Repository\AnimalRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/animal')]
 class AnimalController extends AbstractController
 {
     #[Route('/', name: 'app_animal_index', methods: ['GET'])]
     public function index(AnimalRepository $animalRepository): Response
-    {
-        return $this->render('animal/index.html.twig', [
+    { $form = $this->createFormBuilder()
+        ->setAction($this->generateUrl('handleSearch'))
+        ->add('query', TextType::class, [
+            'label' => false,
+            'attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'Entrez un mot-clé'
+            ]
+        ])
+        ->add('recherche', SubmitType::class, [
+            'attr' => [
+                'class' => 'btn btn-primary'
+            ]
+        ])
+        ->getForm();
+        return $this->renderForm('animal/index.html.twig', [
+            'controller_name' => 'AnimalController',
             'animals' => $animalRepository->findAll(),
+            'form' => $form,
         ]);
     }
 
